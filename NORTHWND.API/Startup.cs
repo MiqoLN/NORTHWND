@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NORTHWND.API.Middlewares;
+using NORTHWND.BLL.Operations;
+using NORTHWND.Core.Abstractions;
+using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.DAL;
 using System;
 using System.Collections.Generic;
@@ -28,7 +33,15 @@ namespace NORTHWND.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NORTHWNDContext>(x => x.UseSqlServer(Configuration.GetConnectionString("default")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(options => //CookieAuthenticationOptions
+              {
+                  //   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+              });
+
             services.AddControllers();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+            services.AddScoped<IUserOperations, UserOperations>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +51,7 @@ namespace NORTHWND.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

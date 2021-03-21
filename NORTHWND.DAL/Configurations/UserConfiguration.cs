@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NORTHWND.DAL.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {

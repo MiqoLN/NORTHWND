@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NORTHWND.BLL\NORTHWND.BLL.csproj" />
     <ProjectReference Include="..\NORTHWND.Core\NORTHWND.Core.csproj" />
     <ProjectReference Include="..\NORTHWND.DAL\NORTHWND.DAL.csproj" />
   </ItemGroup>
