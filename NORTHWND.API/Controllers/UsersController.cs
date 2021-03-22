@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
+using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NORTHWND.API.Controllers
@@ -13,16 +17,18 @@ namespace NORTHWND.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserOperations _userOperations;
-        public UsersController(IUserOperations userOperations)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UsersController(IUserOperations userOperations, IHttpContextAccessor httpContextAccessor)
         {
             _userOperations = userOperations;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (ModelState.IsValid)
             {
-                await _userOperations.Register(model,HttpContext);
+                await _userOperations.Register(model, HttpContext);
                 return Ok();
             }
             return BadRequest();
@@ -30,7 +36,7 @@ namespace NORTHWND.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _userOperations.Login(model, HttpContext);
                 return Ok();
@@ -42,6 +48,13 @@ namespace NORTHWND.API.Controllers
         {
             await _userOperations.Logout(HttpContext);
             return Ok();
+        }
+        [Authorize]
+        [HttpGet("info")]
+        public IActionResult GetInfo()
+        {
+            var user = HttpContext.User.FindFirst(ClaimsIdentity.DefaultNameClaimType).Value;
+            return Ok(user);
         }
     }
 }

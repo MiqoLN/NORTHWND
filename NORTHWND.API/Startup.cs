@@ -38,7 +38,7 @@ namespace NORTHWND.API
               {
                   //   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
               });
-
+            services.AddHttpContextAccessor();
             services.AddControllers();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IUserOperations, UserOperations>();
@@ -47,17 +47,12 @@ namespace NORTHWND.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
-
             app.UseRouting();
-            app.UseStaticFiles();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
