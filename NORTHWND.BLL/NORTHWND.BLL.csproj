@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NORTHWND.Core\NORTHWND.Core.csproj" />
+    <ProjectReference Include="..\NORTHWND.DAL\NORTHWND.DAL.csproj" />
   </ItemGroup>
 
 </Project>

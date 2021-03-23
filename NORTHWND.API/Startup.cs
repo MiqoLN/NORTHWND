@@ -40,6 +40,7 @@ namespace NORTHWND.API
               });
             services.AddHttpContextAccessor();
             services.AddControllers();
+            services.AddScoped<IOrderOperations, OrderOperations>();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IUserOperations, UserOperations>();
         }

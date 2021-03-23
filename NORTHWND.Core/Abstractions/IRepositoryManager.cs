@@ -9,6 +9,7 @@ namespace NORTHWND.Core.Abstractions
     public interface IRepositoryManager
     {
         public IUserRepository Users { get; }
+        public IOrderRepository Orders { get; }
         void SaveChanges();
         Task SaveChangesAsync();
 

@@ -46,3 +46,62 @@ System.NotImplementedException: The method or operation is not implemented.
    at NORTHWND.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\User\source\repos\NorthWnd\NORTHWND.API\Middlewares\ErrorHandlingMiddleware.cs:line 39
    at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
 2021-03-22 17:52:11.590 +04:00 [INF] start
+2021-03-22 20:22:20.961 +04:00 [ERR] 
+NORTHWND.Core.Exceptions.LogicException: There is no customer with that Id
+   at NORTHWND.DAL.Repositories.OrderRepository.AddOrder(OrderRegisterModel model) in C:\Users\User\source\repos\NorthWnd\NORTHWND.DAL\Repositories\OrderRepository.cs:line 20
+   at NORTHWND.BLL.Operations.OrderOperations.AddOrder(OrderRegisterModel model) in C:\Users\User\source\repos\NorthWnd\NORTHWND.BLL\Operations\OrderOperations.cs:line 20
+   at NORTHWND.API.Controllers.OrdersController.AddOrder(OrderRegisterModel model) in C:\Users\User\source\repos\NorthWnd\NORTHWND.API\Controllers\OrdersControler.cs:line 26
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NORTHWND.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\User\source\repos\NorthWnd\NORTHWND.API\Middlewares\ErrorHandlingMiddleware.cs:line 25
+2021-03-22 20:22:21.241 +04:00 [ERR] Connection id "0HM7D9QJE766A", Request id "0HM7D9QJE766A:00000001": An unhandled exception was thrown by the application.
+System.NotImplementedException: The method or operation is not implemented.
+   at NORTHWND.API.Middlewares.ErrorHandlingMiddleware.WriteToResponse(HttpContext context, String message, HttpStatusCode badRequest) in C:\Users\User\source\repos\NorthWnd\NORTHWND.API\Middlewares\ErrorHandlingMiddleware.cs:line 45
+   at NORTHWND.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\User\source\repos\NorthWnd\NORTHWND.API\Middlewares\ErrorHandlingMiddleware.cs:line 32
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2021-03-22 20:36:44.732 +04:00 [ERR] Failed executing DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Categories] (
+    [CategoryID] int NOT NULL IDENTITY,
+    [CategoryName] nvarchar(15) NOT NULL,
+    [Description] ntext NULL,
+    [Picture] image NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryID])
+);
+2021-03-22 20:40:58.985 +04:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Categories] (
+    [CategoryID] int NOT NULL IDENTITY,
+    [CategoryName] nvarchar(15) NOT NULL,
+    [Description] ntext NULL,
+    [Picture] image NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryID])
+);
+2021-03-22 20:43:14.786 +04:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Categories] (
+    [CategoryID] int NOT NULL IDENTITY,
+    [CategoryName] nvarchar(15) NOT NULL,
+    [Description] ntext NULL,
+    [Picture] image NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryID])
+);
+2021-03-22 20:43:38.779 +04:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Categories] (
+    [CategoryID] int NOT NULL IDENTITY,
+    [CategoryName] nvarchar(15) NOT NULL,
+    [Description] ntext NULL,
+    [Picture] image NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryID])
+);

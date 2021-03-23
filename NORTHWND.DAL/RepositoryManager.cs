@@ -17,6 +17,8 @@ namespace NORTHWND.DAL
         }
         private IUserRepository _users;
         public IUserRepository Users => _users ?? (_users = new UserRepository(_dbContext));
+        private IOrderRepository _orders;
+        public IOrderRepository Orders => _orders ?? (_orders = new OrderRepository(_dbContext));
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
