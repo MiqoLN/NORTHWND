@@ -9,11 +9,11 @@ namespace NORTHWND.DAL.Configurations
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<User> entity)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Email).HasColumnType("VARCHAR(100)");
-            builder.Property(x => x.Password).HasColumnType("VARCHAR(100)");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Email).HasColumnType("VARCHAR(100)");
+            entity.Property(x => x.Password).HasColumnType("VARCHAR(100)");
         }
 
     }
