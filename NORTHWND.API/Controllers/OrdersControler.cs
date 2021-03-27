@@ -18,8 +18,8 @@ namespace NORTHWND.API.Controllers
         {
             _orderOperations = orderOperations;
         }
-        [HttpPost("add")]
-        public IActionResult AddOrder([FromBody] OrderRegisterModel model)
+        [HttpPost]
+        public IActionResult Add([FromBody] OrderRegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -27,7 +27,7 @@ namespace NORTHWND.API.Controllers
             }
             else
             {
-                throw new LogicException("Not correct input");
+                return BadRequest();
             }
             return Ok();
         }

@@ -14,12 +14,6 @@ namespace NORTHWND.DAL.Repositories
 
         public void AddOrder(OrderRegisterModel model)
         {
-            var customer = Context.Customers.Find(model.CustomerId);
-            if (customer == null)
-                throw new LogicException("There is no customer with that Id");
-            var employee = Context.Employees.Find(model.EmployeeId);
-            if (employee == null)
-                throw new LogicException("There is no employee with that Id");
             Context.Orders.Add(new Order
             {
                 CustomerId = model.CustomerId,

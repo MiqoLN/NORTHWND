@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NORTHWND.Core.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -40,9 +40,14 @@ namespace NORTHWND.API.Middlewares
             }
         }
 
-        private Task WriteToResponse(HttpContext context, string message, HttpStatusCode badRequest)
+        private Task WriteToResponse(HttpContext context, string message, HttpStatusCode statusCode)
         {
-            throw new NotImplementedException();
+            var response = context.Response;
+            response.StatusCode = (int)statusCode;
+
+            return response.WriteAsync(JsonConvert.SerializeObject(message, Formatting.Indented,
+              new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+
         }
     }
 }

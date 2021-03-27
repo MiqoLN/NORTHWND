@@ -1,22 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NORTHWND.API.Middlewares;
 using NORTHWND.BLL.Operations;
 using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NORTHWND.API
 {
@@ -40,9 +32,13 @@ namespace NORTHWND.API
               });
             services.AddHttpContextAccessor();
             services.AddControllers();
+            services.AddScoped<IOrderDetailOperations, OrderDetailOperations>();
+            services.AddScoped<ICustomerOperations, CustomerOperations>();
+            services.AddScoped<IEmployeeOperations, EmployeeOperations>();
             services.AddScoped<IOrderOperations, OrderOperations>();
-            services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IUserOperations, UserOperations>();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +54,8 @@ namespace NORTHWND.API
             {
                 endpoints.MapControllers();
             });
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
     }
 }
