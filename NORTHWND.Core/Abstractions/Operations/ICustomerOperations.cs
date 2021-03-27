@@ -9,5 +9,9 @@ namespace NORTHWND.Core.Abstractions.Operations
     {
         public IEnumerable<CustomerViewModel> GetAll();
         public void Add(CustomerRegistrationModel model);
+        public IEnumerable<CustomersWithNoOrdersModel> GetCustomersWithNoOrders(int id);
+        public IEnumerable<VipCustomerModel> GetVipCustomers();
+        public IEnumerable<CustomersByGroup> GetCustomersByGroup();
+        public IEnumerable<CustomerGroup> GetCustomersGroup();
     }
 }

@@ -34,5 +34,9 @@ namespace NORTHWND.BLL.Operations
                       }).ToList();
             return res;
         }
+        public IEnumerable<LateEmployeeModel> GetLateEmployees()
+        {
+            return _repositories.Employees.GetLateEmployees();
+        }
     }
 }

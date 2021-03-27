@@ -8,7 +8,14 @@ namespace NORTHWND.Core.Abstractions.Operations
 {
     public interface IOrderOperations
     {
-        public IEnumerable<Order> GetOrders();
+        public IEnumerable<OrderViewModel> GetOrders();
         public void AddOrder(OrderRegisterModel model);
+        public IEnumerable<InventoryListModel> GetInventoryList();
+        public IEnumerable<OrderViewModel> GetMonthEndOrders();
+        public IEnumerable<OrdersTotalModel> GetTotalOrders();
+        public IEnumerable<OrderViewModel> GetRandomOrders();
+        public IEnumerable<OrderDetailsModel> GetDoubledOrders();
+        public IEnumerable<OrderViewModel> GetLateOrders();
+        public OrderViewModel GetOrder(int id);
     }
 }

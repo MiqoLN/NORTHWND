@@ -21,5 +21,11 @@ namespace NORTHWND.API.Controllers
         {
             return Ok(_employeeOperations.GetAll());
         }
+        [HttpGet("late")]
+        public IActionResult GetLateEmployees()
+        {
+            var res = _employeeOperations.GetLateEmployees();
+            return Ok(res);
+        }
     }
 }

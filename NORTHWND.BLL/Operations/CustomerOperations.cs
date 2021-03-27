@@ -47,5 +47,27 @@ namespace NORTHWND.BLL.Operations
                       };
             return res.ToList();
         }
+
+        public IEnumerable<VipCustomerModel> GetVipCustomers()
+        {
+            return _repositories.Customers.GetVipCustomers();
+        }
+
+        public IEnumerable<CustomersWithNoOrdersModel> GetCustomersWithNoOrders(int id)
+        {
+            var customer = _repositories.Employees.Get(id) ?? throw new LogicException("Wrong customerId");
+            return _repositories.Customers.GetCustomersWithNoOrders(id);
+        }
+
+        public IEnumerable<CustomersByGroup> GetCustomersByGroup()
+        {
+            return _repositories.Customers.GetCustomersByGroup();
+        }
+
+
+        public IEnumerable<CustomerGroup> GetCustomersGroup()
+        {
+            return _repositories.Customers.GetCustomersGroup();
+        }
     }
 }

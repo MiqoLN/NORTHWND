@@ -1,9 +1,9 @@
 ﻿using NORTHWND.Core.Abstractions.Repositories;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+
 
 namespace NORTHWND.DAL.Repositories
 {
@@ -15,7 +15,7 @@ namespace NORTHWND.DAL.Repositories
         {
             Context.Customers.Add(new Customer
             {
-                CustomerId=model.CustomerId,
+                CustomerId = model.CustomerId,
                 City = model.City,
                 CompanyName = model.CompanyName,
                 ContactName = model.ContactName,
@@ -23,6 +23,75 @@ namespace NORTHWND.DAL.Repositories
                 Country = model.Country,
                 Region = model.Region
             });
+        }
+
+        public IEnumerable<CustomersWithNoOrdersModel> GetCustomersWithNoOrders(int id)
+        {
+
+            var customerIds = (from order in Context.Orders
+                               where order.EmployeeId == id
+                               select order.CustomerId).ToList();
+
+
+            var query = from customer in Context.Customers
+                        where !customerIds.Contains(customer.CustomerId)
+                        select new CustomersWithNoOrdersModel
+                        {
+                            CustomerId = customer.CustomerId,
+                        };
+            return query.ToList();
+        }
+
+        public IEnumerable<VipCustomerModel> GetVipCustomers()
+        {
+            var query = from c in Context.Customers
+                        join o in Context.Orders on c.CustomerId equals o.CustomerId
+                        join od in Context.OrderDetails on o.OrderId equals od.OrderId
+                        group od by new { c.CustomerId, c.CompanyName } into gc
+                        where gc.Sum(x=>x.Quantity*x.UnitPrice-(decimal)(1-x.Discount))>10000
+                        orderby gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount)) descending
+                        select new VipCustomerModel
+                        {
+                            CustomerId = gc.Key.CustomerId,
+                            CompanyName = gc.Key.CompanyName,
+                            TotalOrderAmount = gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount))
+                        };
+
+            return query.ToList();
+
+        }
+        public IEnumerable<CustomersByGroup> GetCustomersByGroup()
+        {
+            var query = from c in Context.Customers
+                        join o in Context.Orders on c.CustomerId equals o.CustomerId
+                        join od in Context.OrderDetails on o.OrderId equals od.OrderId
+                        group od by new { c.CustomerId, c.CompanyName } into gc
+                        select new CustomersByGroup
+                        {
+                            CustomerId = gc.Key.CustomerId,
+                            CompanyName = gc.Key.CompanyName,
+                            TotalOrderAmount = gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount)),
+                            CustomerGroup = (
+                            gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount)) < 1000 ? "Low" :
+                            gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount)) < 5000 ? "Medium" :
+                            gc.Sum(x => x.Quantity * x.UnitPrice - (decimal)(1 - x.Discount)) < 10000 ? "High" : "Very High"
+                            )
+                        };
+            return query;
+        }
+        public IEnumerable<CustomerGroup> GetCustomersGroup()
+        {
+            var query = GetCustomersByGroup();
+            var count = query.Count();
+            var res = from q in query
+                      group q by q.CustomerGroup into g
+                      select new CustomerGroup
+                      {
+                          Group = g.Key,
+                          TotalInGroup = g.Count(),
+                          PercentaceInGroup = (decimal)g.Count() / count
+                      };
+            return res;
         }
     }
 }

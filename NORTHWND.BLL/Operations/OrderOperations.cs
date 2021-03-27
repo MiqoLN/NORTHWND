@@ -20,7 +20,7 @@ namespace NORTHWND.BLL.Operations
         }
         public void AddOrder(OrderRegisterModel model)
         {
-            var customer = _repositories.Customers.GetSingle(u=>u.CustomerId==model.CustomerId);
+            var customer = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
             if (customer == null)
                 throw new LogicException("There is no customer with that Id");
             var employee = _repositories.Employees.Get(model.EmployeeId);
@@ -29,10 +29,79 @@ namespace NORTHWND.BLL.Operations
             _repositories.Orders.AddOrder(model);
             _repositories.SaveChanges();
         }
-        public IEnumerable<Order> GetOrders()
+
+        public IEnumerable<InventoryListModel> GetInventoryList()
         {
-            var query = _repositories.Orders.GetAll();
-            return query.ToList();
+            return _repositories.Orders.GetInventoryList();
+        }
+
+        public IEnumerable<OrderViewModel> GetMonthEndOrders()
+        {
+            return _repositories.Orders.GetMonthEndOrders();
+        }
+
+        public IEnumerable<OrderViewModel> GetOrders()
+        {
+            var data = _repositories.Orders.GetAll();
+            var res = from d in data
+                      select new OrderViewModel
+                      {
+                          CustomerId = d.CustomerId,
+                          EmployeeId = d.EmployeeId,
+                          Freight = d.Freight,
+                          OrderDate = d.OrderDate,
+                          OrderId = d.OrderId,
+                          RequiredDate = d.RequiredDate,
+                          ShipCity = d.ShipCity,
+                          ShipCountry = d.ShipCountry,
+                          ShippedDate = d.ShippedDate,
+                          ShipRegion = d.ShipRegion
+                      };
+            return res;
+        }
+
+        public IEnumerable<OrdersTotalModel> GetTotalOrders()
+        {
+            return _repositories.Orders.GetTotalOrders();
+        }
+
+        public IEnumerable<OrderViewModel> GetRandomOrders()
+        {
+            return _repositories.Orders.GetRandomOrders();
+        }
+        public IEnumerable<OrderDetailsModel> GetDoubledOrders()
+        {
+            return _repositories.Orders.GetDoubledOrders();
+        }
+        /*
+        DO TRANSACTION!!
+        public void Test()
+        {
+            using (var transaction = _repositories.BeginTransaction())
+            {
+                try
+                {
+                    //add
+                    //remove
+                    _repositories.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (System.Exception)
+                {
+                    transaction.RollBack();
+                    throw;
+                }
+            }
+        }
+        */
+        public IEnumerable<OrderViewModel> GetLateOrders()
+        {
+            return _repositories.Orders.GetLateOrders();
+        }
+        public OrderViewModel GetOrder(int id)
+        {
+            var order = _repositories.Orders.GetSingle(u => u.OrderId == id) ?? throw new LogicException("Wrong Order Id");
+            return _repositories.Orders.GetOrder(id);
         }
     }
 }

@@ -31,5 +31,22 @@ namespace NORTHWND.API.Controllers
                 return BadRequest();
             return Ok();
         }
+        [HttpGet("without-order/{id}")]
+        public IActionResult GetCustomersWithoutOrder([FromRoute]int id)
+        {
+            return Ok(_customerOperations.GetCustomersWithNoOrders(id));
+        }
+        [HttpGet("vip")]
+        public IActionResult GetVipCustomers()
+        {
+            var res = _customerOperations.GetVipCustomers();
+            return Ok(res);
+        }
+        [HttpGet("groups/count")]
+        public IActionResult GetCustomerGroup()
+        {
+            var res = _customerOperations.GetCustomersGroup();
+            return Ok(res);
+        }
     }
 }

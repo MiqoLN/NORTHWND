@@ -8,5 +8,6 @@ namespace NORTHWND.Core.Abstractions.Operations
     public interface IEmployeeOperations
     {
         public IEnumerable<EmployeeViewModel> GetAll();
+        public IEnumerable<LateEmployeeModel> GetLateEmployees();
     }
 }
