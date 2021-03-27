@@ -13,5 +13,7 @@ namespace NORTHWND.Core.Abstractions.Operations
         public IEnumerable<VipCustomerModel> GetVipCustomers();
         public IEnumerable<CustomersByGroup> GetCustomersByGroup();
         public IEnumerable<CustomerGroup> GetCustomersGroup();
+        public IEnumerable<CustomerWithOnlyId> GetCustomersWithNoOrders();
+
     }
 }

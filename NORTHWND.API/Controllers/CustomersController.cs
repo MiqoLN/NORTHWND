@@ -48,5 +48,11 @@ namespace NORTHWND.API.Controllers
             var res = _customerOperations.GetCustomersGroup();
             return Ok(res);
         }
+        [HttpGet("no-order")]
+        public IActionResult GetCustomersWithNoOrders()
+        {
+            var res = _customerOperations.GetCustomersWithNoOrders();
+            return Ok(res);
+        }
     }
 }

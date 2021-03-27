@@ -69,5 +69,10 @@ namespace NORTHWND.BLL.Operations
         {
             return _repositories.Customers.GetCustomersGroup();
         }
+
+        public IEnumerable<CustomerWithOnlyId> GetCustomersWithNoOrders()
+        {
+            return _repositories.Customers.GetCustomersWithNoOrders();
+        }
     }
 }

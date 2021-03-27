@@ -93,5 +93,21 @@ namespace NORTHWND.DAL.Repositories
                       };
             return res;
         }
+        public IEnumerable<CustomerWithOnlyId> GetCustomersWithNoOrders()
+        {
+            var orders = Context.Orders.AsQueryable();
+            var customers = Context.Customers.AsQueryable();
+            var res = (from c in customers
+                       join o in orders on c.CustomerId equals o.CustomerId into gj
+                       from sub in gj.DefaultIfEmpty()
+                       where sub.CustomerId == null
+                       select new CustomerWithOnlyId
+                       {
+                           CustomerId = c.CustomerId,
+                           //              OrderId = sub == null ? -1 : sub.OrderId
+                       }).ToList();
+
+            return res;
+        }
     }
 }

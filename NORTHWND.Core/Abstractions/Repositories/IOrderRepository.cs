@@ -15,6 +15,7 @@ namespace NORTHWND.Core.Abstractions.Repositories
         public IEnumerable<OrderViewModel> GetRandomOrders();
         public IEnumerable<OrderDetailsModel> GetDoubledOrders();
         public IEnumerable<OrderViewModel> GetLateOrders();
+
         public OrderViewModel GetOrder(int id);
 
     }
