@@ -9,9 +9,9 @@ using System.Text;
 
 namespace NORTHWND.DAL.Repositories
 {
-    public class OrderRepository:RepositoryBase<Order>,IOrderRepository
+    public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
-        public OrderRepository(NORTHWNDContext context):base(context){}
+        public OrderRepository(NORTHWNDContext context) : base(context) { }
 
         public void AddOrder(OrderRegisterModel model)
         {
@@ -19,11 +19,11 @@ namespace NORTHWND.DAL.Repositories
             {
                 CustomerId = model.CustomerId,
                 EmployeeId = model.EmployeeId,
-                Freight=model.Freight,
-                ShipAddress=model.ShipAddress,
-                ShipName=model.ShipName,
-                ShipCountry=model.ShipCountry,
-                ShipCity=model.ShipCity
+                Freight = model.Freight,
+                ShipAddress = model.ShipAddress,
+                ShipName = model.ShipName,
+                ShipCountry = model.ShipCountry,
+                ShipCity = model.ShipCity
             });
         }
         public IEnumerable<OrderDetailsModel> GetDoubledOrders()
@@ -121,6 +121,26 @@ namespace NORTHWND.DAL.Repositories
                 ShippedDate = order.ShippedDate,
                 ShipRegion = order.ShipRegion
             };
+        }
+
+        public IEnumerable<OrderViewModel> GetOrdersByCountry(string country)
+        {
+            var query = (from o in Context.Orders
+                         where o.ShipCountry == country
+                         select new OrderViewModel
+                         {
+                             ShipCountry = o.ShipCountry,
+                             CustomerId = o.CustomerId,
+                             EmployeeId = o.EmployeeId,
+                             Freight = o.Freight,
+                             OrderDate = o.OrderDate,
+                             OrderId = o.OrderId,
+                             RequiredDate = o.RequiredDate,
+                             ShipCity = o.ShipCity,
+                             ShippedDate = o.ShippedDate,
+                             ShipRegion = o.ShipRegion
+                         }).ToList();
+            return query;
         }
 
         public IEnumerable<OrderViewModel> GetRandomOrders()

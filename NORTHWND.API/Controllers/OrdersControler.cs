@@ -79,5 +79,11 @@ namespace NORTHWND.API.Controllers
             var res = _orderOperations.GetLateOrders();
             return Ok(res);
         }
+        [HttpGet("country/{country}")]
+        public IActionResult GetOrdersByCountry([FromRoute] string country)
+        {
+            var res = _orderOperations.GetOrdersByCountry(country);
+            return Ok(res);
+        }
     }
 }

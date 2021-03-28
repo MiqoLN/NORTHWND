@@ -16,6 +16,7 @@ namespace NORTHWND.Core.Abstractions.Operations
         public IEnumerable<OrderViewModel> GetRandomOrders();
         public IEnumerable<OrderDetailsModel> GetDoubledOrders();
         public IEnumerable<OrderViewModel> GetLateOrders();
+        public IEnumerable<OrderViewModel> GetOrdersByCountry(string country);
         public OrderViewModel GetOrder(int id);
     }
 }

@@ -103,5 +103,11 @@ namespace NORTHWND.BLL.Operations
             var order = _repositories.Orders.GetSingle(u => u.OrderId == id) ?? throw new LogicException("Wrong Order Id");
             return _repositories.Orders.GetOrder(id);
         }
+
+        public IEnumerable<OrderViewModel> GetOrdersByCountry(string country)
+        {
+            var order = _repositories.Orders.GetSingle(u => u.ShipCountry == country) ?? throw new LogicException("There is no country like that to ship");
+            return _repositories.Orders.GetOrdersByCountry(country);
+        }
     }
 }

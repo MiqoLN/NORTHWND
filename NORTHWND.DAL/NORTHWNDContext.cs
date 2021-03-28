@@ -68,7 +68,7 @@ namespace NORTHWND.DAL
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDetailsExtendedConfiguration());
             modelBuilder.ApplyConfiguration(new OrderSubtotalConfiguration());
             modelBuilder.ApplyConfiguration(new OrdersQryConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
@@ -81,7 +81,7 @@ namespace NORTHWND.DAL
             modelBuilder.ApplyConfiguration(new SalesTotalsByAmountConguration());
             modelBuilder.ApplyConfiguration(new ShipperConfiguration());
             modelBuilder.ApplyConfiguration(new SummaryOfSalesByQuarterConfiguration());
-            modelBuilder.ApplyConfiguration(new SummaryOfSalesByQuarterConfiguration());
+            modelBuilder.ApplyConfiguration(new SummaryOfSalesByYearConfiguration());
             modelBuilder.ApplyConfiguration(new SupplierConfiguration());
             modelBuilder.ApplyConfiguration(new TerritoryConfiguration());
 
