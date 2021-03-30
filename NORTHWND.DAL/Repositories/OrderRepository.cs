@@ -26,6 +26,8 @@ namespace NORTHWND.DAL.Repositories
                 ShipCity = model.ShipCity
             });
         }
+
+
         public IEnumerable<OrderDetailsModel> GetDoubledOrders()
         {
             var query = from order in Context.OrderDetails

@@ -26,10 +26,7 @@ namespace NORTHWND.API
         {
             services.AddDbContext<NORTHWNDContext>(x => x.UseSqlServer(Configuration.GetConnectionString("default")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-             .AddCookie(options => //CookieAuthenticationOptions
-              {
-                  //   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-              });
+             .AddCookie(options => {});
             services.AddHttpContextAccessor();
             services.AddControllers();
             services.AddScoped<IOrderDetailOperations, OrderDetailOperations>();

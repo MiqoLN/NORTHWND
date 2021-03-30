@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Exceptions;
@@ -18,6 +19,12 @@ namespace NORTHWND.API.Controllers
         {
             _orderOperations = orderOperations;
         }
+        [HttpPut]
+        public IActionResult Edit([FromQuery] OrderChangeModel model)
+        {
+            _orderOperations.EditOrder(model);
+            return Ok();
+        }
         [HttpPost]
         public IActionResult Add([FromBody] OrderRegisterModel model)
         {
@@ -31,6 +38,7 @@ namespace NORTHWND.API.Controllers
             }
             return Ok();
         }
+        [Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult GetOrders()
         {

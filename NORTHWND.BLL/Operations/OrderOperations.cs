@@ -109,5 +109,35 @@ namespace NORTHWND.BLL.Operations
             var order = _repositories.Orders.GetSingle(u => u.ShipCountry == country) ?? throw new LogicException("There is no country like that to ship");
             return _repositories.Orders.GetOrdersByCountry(country);
         }
+
+        public void EditOrder(OrderChangeModel model)
+        {
+            var order = _repositories.Orders.Get(model.OrderId);
+            if (order == null)
+                throw new LogicException("There is no order with that Id");
+            if (!string.IsNullOrEmpty(model.CustomerId))
+            {
+                var customer = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
+                if (customer == null)
+                    throw new LogicException("There is no customer with that Id");
+            }
+            if(order.EmployeeId!=null)
+            {
+                var employee = _repositories.Employees.Get((int)model.EmployeeId);
+                if(employee==null)
+                {
+                    throw new LogicException("There is no employee with that Id");
+                }
+            }
+            order.CustomerId = string.IsNullOrEmpty(model.CustomerId) ? order.CustomerId : model.CustomerId;
+            order.EmployeeId = model.EmployeeId == null ? order.EmployeeId : model.EmployeeId;
+            order.Freight = model.Freight == null ? order.Freight : model.Freight;
+            order.ShipAddress = string.IsNullOrEmpty(model.ShipAddress) ? order.ShipAddress : model.ShipAddress;
+            order.ShipCity = string.IsNullOrEmpty(model.ShipCity) ? order.ShipCity : model.ShipCity;
+            order.ShipCountry = string.IsNullOrEmpty(model.ShipCountry) ? order.ShipCountry : model.ShipCountry;
+            order.ShipName = string.IsNullOrEmpty(model.ShipName) ? order.ShipName : model.ShipName; ;
+            _repositories.Orders.Update(order);
+            _repositories.SaveChanges();
+        }
     }
 }

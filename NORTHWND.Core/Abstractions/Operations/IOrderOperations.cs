@@ -10,6 +10,7 @@ namespace NORTHWND.Core.Abstractions.Operations
     {
         public IEnumerable<OrderViewModel> GetOrders();
         public void AddOrder(OrderRegisterModel model);
+        public void EditOrder(OrderChangeModel model);
         public IEnumerable<InventoryListModel> GetInventoryList();
         public IEnumerable<OrderViewModel> GetMonthEndOrders();
         public IEnumerable<OrdersTotalModel> GetTotalOrders();
