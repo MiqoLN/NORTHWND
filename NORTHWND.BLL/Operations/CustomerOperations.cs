@@ -74,5 +74,19 @@ namespace NORTHWND.BLL.Operations
         {
             return _repositories.Customers.GetCustomersWithNoOrders();
         }
+        public void EditCustomer(CustomerChangeModel model)
+        {
+            var customer = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
+            if (customer == null)
+                throw new LogicException("There is no customer with that Id");
+            customer.City = string.IsNullOrEmpty(model.City) ? customer.City : model.City;
+            customer.CompanyName = string.IsNullOrEmpty(model.CompanyName) ? customer.CompanyName : model.CompanyName;
+            customer.ContactName = string.IsNullOrEmpty(model.ContactName) ? customer.ContactName : model.ContactName;
+            customer.ContactTitle = string.IsNullOrEmpty(model.ContactTitle) ? customer.ContactTitle : model.ContactTitle;
+            customer.Country = string.IsNullOrEmpty(model.Country) ? customer.Country : model.Country;
+            customer.Region = string.IsNullOrEmpty(model.Region) ? customer.Region : model.Region;
+            _repositories.Customers.Update(customer);
+            _repositories.SaveChanges();
+        }
     }
 }

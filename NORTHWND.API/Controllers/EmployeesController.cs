@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NORTHWND.Core.Abstractions.Operations;
+using NORTHWND.Core.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,22 @@ namespace NORTHWND.API.Controllers
         public IActionResult Get()
         {
             return Ok(_employeeOperations.GetAll());
+        }
+        [HttpPost]
+        public IActionResult Post([FromBody]EmployeeRegisterModel model)
+        {
+            if (ModelState.IsValid)
+                _employeeOperations.AddEmployee(model);
+            else
+                return BadRequest("Not all parameters have filled");
+            
+            return Created("",model);
+        }
+        [HttpPut]
+        public IActionResult Edit([FromQuery]EmployeeChangeModel model)
+        {
+            _employeeOperations.EditEmployee(model);
+            return Ok();
         }
         [HttpGet("late")]
         public IActionResult GetLateEmployees()

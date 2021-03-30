@@ -31,6 +31,14 @@ namespace NORTHWND.API.Controllers
                 return BadRequest();
             return Ok();
         }
+        [HttpPut]
+        public IActionResult Edit([FromQuery] CustomerChangeModel model)
+        {
+            if (ModelState.IsValid)
+                _customerOperations.EditCustomer(model);
+            else return BadRequest();
+            return Ok();
+        }
         [HttpGet("without-order/{id}")]
         public IActionResult GetCustomersWithoutOrder([FromRoute]int id)
         {

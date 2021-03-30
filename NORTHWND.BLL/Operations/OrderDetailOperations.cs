@@ -5,6 +5,7 @@ using NORTHWND.Core.Entities;
 using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NORTHWND.BLL.Operations
@@ -33,7 +34,23 @@ namespace NORTHWND.BLL.Operations
                 Quantity = model.Quantity,
                 UnitPrice = model.UnitPrice
             });
+            _repositories.SaveChanges();
+        }
 
+        public IEnumerable<OrderDetailsModel> GetAll()
+        {
+            var ods = _repositories.OrderDetails.GetAll().AsQueryable();
+            var res = (from od in ods
+                      select new OrderDetailsModel
+                      {
+                          Discount = od.Discount,
+                          OrderId = od.OrderId,
+                          ProductId = od.ProductId,
+                          Quantity = od.Quantity,
+                          UnitPrice = od.UnitPrice
+
+                      }).ToList();
+            return res;
         }
     }
 }

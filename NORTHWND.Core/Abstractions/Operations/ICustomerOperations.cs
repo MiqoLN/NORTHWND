@@ -14,6 +14,6 @@ namespace NORTHWND.Core.Abstractions.Operations
         public IEnumerable<CustomersByGroup> GetCustomersByGroup();
         public IEnumerable<CustomerGroup> GetCustomersGroup();
         public IEnumerable<CustomerWithOnlyId> GetCustomersWithNoOrders();
-
+        public void EditCustomer(CustomerChangeModel model);
     }
 }

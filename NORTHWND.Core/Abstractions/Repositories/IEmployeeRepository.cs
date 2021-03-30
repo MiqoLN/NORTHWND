@@ -8,6 +8,7 @@ namespace NORTHWND.Core.Abstractions.Repositories
 {
     public interface IEmployeeRepository:IRepositoryBase<Employee>
     {
+        public void AddEmployee(EmployeeRegisterModel model);
         public IEnumerable<LateEmployeeModel> GetLateEmployees();
     }
 }

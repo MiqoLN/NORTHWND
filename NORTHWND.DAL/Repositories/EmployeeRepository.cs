@@ -11,6 +11,22 @@ namespace NORTHWND.DAL.Repositories
     {
         public EmployeeRepository(NORTHWNDContext context):base(context){}
 
+
+        public void AddEmployee(EmployeeRegisterModel model)
+        {
+            Context.Employees.Add(new Employee
+            {
+                BirthDate = model.BirthDate,
+                City = model.City,
+                Country = model.Country,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Region = model.Region,
+                Title=model.Title,
+                TitleOfCourtesy=model.TitleOfCourtesy
+            });
+        }
+
         public IEnumerable<LateEmployeeModel> GetLateEmployees()
         {
             var orders = (from employee in Context.Employees
