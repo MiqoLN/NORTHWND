@@ -20,7 +20,13 @@ namespace NORTHWND.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_employeeOperations.GetAll());
+            return Ok(_employeeOperations.Get());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get([FromRoute] int id)
+        {
+            return Ok(_employeeOperations.Get(id));
         }
         [HttpPost]
         public IActionResult Post([FromBody]EmployeeRegisterModel model)

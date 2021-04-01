@@ -20,10 +20,15 @@ namespace NORTHWND.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_customerOperations.GetAll());
+            return Ok(_customerOperations.Get());
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get([FromRoute] string id)
+        {
+            return Ok(_customerOperations.Get(id));
         }
         [HttpPost]
-        public IActionResult Post([FromBody] CustomerRegistrationModel model)
+        public IActionResult Post([FromBody] CustomerRegisterModel model)
         {
             if (ModelState.IsValid)
                 _customerOperations.Add(model);

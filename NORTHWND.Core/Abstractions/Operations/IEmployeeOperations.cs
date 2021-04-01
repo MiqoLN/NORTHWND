@@ -7,9 +7,10 @@ namespace NORTHWND.Core.Abstractions.Operations
 {
     public interface IEmployeeOperations
     {
-        public IEnumerable<EmployeeViewModel> GetAll();
-        public IEnumerable<LateEmployeeModel> GetLateEmployees();
         public void AddEmployee(EmployeeRegisterModel model);
         public void EditEmployee(EmployeeChangeModel model);
+        public EmployeeViewModel Get(int id);
+        public IEnumerable<EmployeeViewModel> Get();
+        public IEnumerable<LateEmployeeModel> GetLateEmployees();
     }
 }

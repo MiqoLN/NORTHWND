@@ -40,7 +40,7 @@ namespace NORTHWND.BLL.Operations
             _repositories.SaveChanges();
         }
 
-        public IEnumerable<EmployeeViewModel> GetAll()
+        public IEnumerable<EmployeeViewModel> Get()
         {
             var query = _repositories.Employees.GetAll();
             var res = (from e in query
@@ -57,6 +57,26 @@ namespace NORTHWND.BLL.Operations
                            TitleOfCourtesy = e.TitleOfCourtesy
                        }).ToList();
             return res;
+        }
+
+        public EmployeeViewModel Get(int id)
+        {
+            var employee = _repositories.Employees.Get(id);
+            if (employee == null)
+                throw new LogicException("There is no employee with that Id");
+            return new EmployeeViewModel
+            {
+                BirthDate = employee.BirthDate,
+                City = employee.City,
+                Country = employee.Country,
+                EmployeeId = employee.EmployeeId,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Region = employee.Region,
+                Title = employee.Title,
+                TitleOfCourtesy = employee.TitleOfCourtesy
+
+            };
         }
         public IEnumerable<LateEmployeeModel> GetLateEmployees()
         {

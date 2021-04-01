@@ -11,7 +11,7 @@ namespace NORTHWND.DAL.Repositories
     {
         public CustomerRepository(NORTHWNDContext context) : base(context) { }
 
-        public void AddCustomer(CustomerRegistrationModel model)
+        public void AddCustomer(CustomerRegisterModel model)
         {
             Context.Customers.Add(new Customer
             {

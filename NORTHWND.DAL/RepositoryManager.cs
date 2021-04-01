@@ -24,6 +24,10 @@ namespace NORTHWND.DAL
         public IOrderDetailRepository OrderDetails => _orderDetails ?? (_orderDetails = new OrderDetailRepository(_dbContext));
         private IProductRepository _products;
         public IProductRepository Products => _products ?? (_products = new ProductRepository(_dbContext));
+        private ISupplierRepository _suppliers;
+        public ISupplierRepository Suppliers => _suppliers ?? (_suppliers = new SupplierRepository(_dbContext));
+        private ICategoryRepository _categories;
+        public ICategoryRepository Categories => _categories ?? (_categories = new CategoryRepository(_dbContext));
         public void SaveChanges()
         {
             _dbContext.SaveChanges();

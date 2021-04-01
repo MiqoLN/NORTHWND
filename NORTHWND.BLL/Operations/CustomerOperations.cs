@@ -17,7 +17,7 @@ namespace NORTHWND.BLL.Operations
             _repositories = manager;
         }
 
-        public void Add(CustomerRegistrationModel model)
+        public void Add(CustomerRegisterModel model)
         {
             var modelCheck = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
             if (modelCheck == null)
@@ -31,7 +31,7 @@ namespace NORTHWND.BLL.Operations
             }
         }
 
-        public IEnumerable<CustomerViewModel> GetAll()
+        public IEnumerable<CustomerViewModel> Get()
         {
             var query = _repositories.Customers.GetAll().AsQueryable();
             var res = from c in query
@@ -88,5 +88,22 @@ namespace NORTHWND.BLL.Operations
             _repositories.Customers.Update(customer);
             _repositories.SaveChanges();
         }
+
+        public CustomerViewModel Get(string id)
+        {
+            var customer = _repositories.Customers.GetSingle(u => u.CustomerId == id);
+            if (customer == null)
+                throw new LogicException("There is no customer with that id");
+            return new CustomerViewModel
+            {
+                City = customer.City,
+                CompanyName = customer.CompanyName,
+                ContactName = customer.ContactName,
+                ContactTitle = customer.ContactTitle,
+                Country = customer.Country,
+                CustomerId = customer.CustomerId,
+                Region = customer.Region
+        };
     }
+}
 }

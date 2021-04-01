@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NORTHWND.Core.BusinessModels
 {
-    public class CustomerRegistrationModel
+    public class CustomerRegisterModel
     {
         [Required]
         public string CustomerId { get; set; }

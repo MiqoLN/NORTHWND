@@ -14,6 +14,8 @@ namespace NORTHWND.Core.Abstractions
         public IEmployeeRepository Employees { get; }
         public IOrderDetailRepository OrderDetails { get; }
         public IProductRepository Products { get; }
+        public ISupplierRepository Suppliers { get; }
+        public ICategoryRepository Categories { get; }
         void SaveChanges();
         Task SaveChangesAsync();
 

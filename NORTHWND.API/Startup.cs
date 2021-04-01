@@ -29,6 +29,7 @@ namespace NORTHWND.API
              .AddCookie(options => {});
             services.AddHttpContextAccessor();
             services.AddControllers();
+            services.AddScoped<IProductOperations, ProductOperations>();
             services.AddScoped<IOrderDetailOperations, OrderDetailOperations>();
             services.AddScoped<ICustomerOperations, CustomerOperations>();
             services.AddScoped<IEmployeeOperations, EmployeeOperations>();
