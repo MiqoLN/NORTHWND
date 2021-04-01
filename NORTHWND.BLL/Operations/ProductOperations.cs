@@ -20,10 +20,10 @@ namespace NORTHWND.BLL.Operations
 
         public void Add(ProductRegisterModel model)
         {
-            var supplier = _repositories.Suppliers.Get(model.SupplierId);
+            var supplier = _repositories.Suppliers.Get((int)model.SupplierId);
             if (supplier == null)
                 throw new LogicException("There is no supplier with that Id");
-            var category = _repositories.Categories.Get(model.CategoryId);
+            var category = _repositories.Categories.Get((int)model.CategoryId);
             if (category == null)
                 throw new LogicException("There is no category with that Id");
             _repositories.Products.Add(new Product
