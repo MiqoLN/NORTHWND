@@ -8,5 +8,6 @@ namespace NORTHWND.Core.Abstractions.Repositories
 {
     public interface IOrderDetailRepository:IRepositoryBase<OrderDetail>
     {
+        public IEnumerable<OrderDetailsModel> Get(OrderDetailsModel model);
     }
 }

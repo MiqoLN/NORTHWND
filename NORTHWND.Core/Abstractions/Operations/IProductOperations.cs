@@ -11,6 +11,7 @@ namespace NORTHWND.Core.Abstractions.Operations
         public void Add(ProductRegisterModel model);
         public ProductViewModel Get(int id);
         public IEnumerable<ProductViewModel> Get();
-        
+        public IEnumerable<ProductViewModel> Get(ProductViewModel model);
+
     }
 }

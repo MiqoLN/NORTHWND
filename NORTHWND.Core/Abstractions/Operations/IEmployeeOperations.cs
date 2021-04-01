@@ -12,5 +12,6 @@ namespace NORTHWND.Core.Abstractions.Operations
         public EmployeeViewModel Get(int id);
         public IEnumerable<EmployeeViewModel> Get();
         public IEnumerable<LateEmployeeModel> GetLateEmployees();
+        public IEnumerable<EmployeeViewModel> Get(EmployeeViewModel model);
     }
 }

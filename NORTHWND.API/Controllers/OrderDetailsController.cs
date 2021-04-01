@@ -23,6 +23,12 @@ namespace NORTHWND.API.Controllers
         {
             return Ok(_orderDetailOperations.GetAll());
         }
+
+        [HttpGet("properties")]
+        public IActionResult Get([FromQuery] OrderDetailsModel model)
+        {
+            return Ok(_orderDetailOperations.Get(model));
+        }
         [HttpPost]
         public IActionResult Post(OrderDetailRegisterModel model)
         {

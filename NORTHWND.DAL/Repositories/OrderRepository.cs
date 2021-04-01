@@ -27,6 +27,35 @@ namespace NORTHWND.DAL.Repositories
             });
         }
 
+        public IEnumerable<OrderViewModel> Get(OrderViewModel model)
+        {
+            var orders = Context.Orders.AsQueryable();
+            var res = (from o in orders
+                       where (string.IsNullOrEmpty(model.CustomerId) || o.CustomerId == model.CustomerId)
+                       && (string.IsNullOrEmpty(model.ShipCity) || o.ShipCity == model.ShipCity)
+                       && (string.IsNullOrEmpty(model.ShipCountry) || o.ShipCountry == model.ShipCountry)
+                       && (string.IsNullOrEmpty(model.ShipRegion) || o.ShipRegion == model.ShipRegion)
+                       && (!model.OrderId.HasValue || o.OrderId == model.OrderId)
+                       && (!model.RequiredDate.HasValue || o.RequiredDate == model.RequiredDate)
+                       && (!model.EmployeeId.HasValue || o.EmployeeId == model.EmployeeId)
+                       && (!model.Freight.HasValue || o.Freight == model.Freight)
+                       && (!model.OrderDate.HasValue || o.OrderDate == model.OrderDate)
+                       && (!model.ShippedDate.HasValue || o.ShippedDate == model.ShippedDate)
+                       select new OrderViewModel
+                       {
+                           ShippedDate = o.ShippedDate,
+                           RequiredDate = o.RequiredDate,
+                           OrderDate = o.OrderDate,
+                           Freight = o.Freight,
+                           CustomerId = o.CustomerId,
+                           EmployeeId = o.EmployeeId,
+                           OrderId = o.OrderId,
+                           ShipCity = o.ShipCity,
+                           ShipCountry = o.ShipCountry,
+                           ShipRegion = o.ShipRegion
+                       }).ToList();
+            return res;
+        }
 
         public IEnumerable<OrderDetailsModel> GetDoubledOrders()
         {

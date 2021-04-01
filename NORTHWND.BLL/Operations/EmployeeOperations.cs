@@ -78,6 +78,12 @@ namespace NORTHWND.BLL.Operations
 
             };
         }
+
+        public IEnumerable<EmployeeViewModel> Get(EmployeeViewModel model)
+        {
+            return _repositories.Employees.Get(model);
+        }
+
         public IEnumerable<LateEmployeeModel> GetLateEmployees()
         {
             return _repositories.Employees.GetLateEmployees();

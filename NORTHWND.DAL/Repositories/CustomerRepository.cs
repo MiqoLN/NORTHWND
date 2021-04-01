@@ -109,5 +109,29 @@ namespace NORTHWND.DAL.Repositories
 
             return res;
         }
+
+        public IEnumerable<CustomerViewModel> Get(CustomerViewModel model)
+        {
+            var customers = Context.Customers.AsQueryable();
+            var res = (from c in customers
+                       where (string.IsNullOrEmpty(model.City) || c.City == model.City)
+                       && (string.IsNullOrEmpty(model.CompanyName) || c.CompanyName == model.CompanyName)
+                       && (string.IsNullOrEmpty(model.ContactName) || c.ContactName == model.ContactName)
+                       && (string.IsNullOrEmpty(model.ContactTitle) || c.ContactTitle == model.ContactTitle)
+                       && (string.IsNullOrEmpty(model.Country) || c.Country == model.Country)
+                       && (string.IsNullOrEmpty(model.CustomerId) || c.CustomerId == model.CustomerId)
+                       && (string.IsNullOrEmpty(model.Region) || c.Region == model.Region)
+                       select new CustomerViewModel
+                       {
+                           Region = c.Region,
+                           CustomerId = c.CustomerId,
+                           City = c.City,
+                           CompanyName = c.CompanyName,
+                           ContactName = c.ContactName,
+                           ContactTitle = c.ContactTitle,
+                           Country = c.Country
+                       }).ToList();
+            return res;
+        }
     }
 }

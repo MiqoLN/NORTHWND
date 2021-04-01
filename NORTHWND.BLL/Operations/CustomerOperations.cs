@@ -103,7 +103,12 @@ namespace NORTHWND.BLL.Operations
                 Country = customer.Country,
                 CustomerId = customer.CustomerId,
                 Region = customer.Region
-        };
+            };
+        }
+
+        public IEnumerable<CustomerViewModel> Get(CustomerViewModel model)
+        {
+            return _repositories.Customers.Get(model);
+        }
     }
-}
 }

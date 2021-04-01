@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace NORTHWND.DAL.Repositories
 {
-    public class EmployeeRepository:RepositoryBase<Employee>,IEmployeeRepository
+    public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(NORTHWNDContext context):base(context){}
+        public EmployeeRepository(NORTHWNDContext context) : base(context) { }
 
 
         public void AddEmployee(EmployeeRegisterModel model)
@@ -22,9 +22,37 @@ namespace NORTHWND.DAL.Repositories
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Region = model.Region,
-                Title=model.Title,
-                TitleOfCourtesy=model.TitleOfCourtesy
+                Title = model.Title,
+                TitleOfCourtesy = model.TitleOfCourtesy
             });
+        }
+
+        public IEnumerable<EmployeeViewModel> Get(EmployeeViewModel model)
+        {
+            var employees = Context.Employees.AsQueryable();
+            var res = (from e in employees
+                       where (string.IsNullOrEmpty(model.City) || e.City == model.City)
+                       && (string.IsNullOrEmpty(model.Country) || e.Country == model.Country)
+                       && (string.IsNullOrEmpty(model.FirstName) || e.FirstName == model.FirstName)
+                       && (string.IsNullOrEmpty(model.LastName) || e.LastName == model.LastName)
+                       && (string.IsNullOrEmpty(model.Region) || e.Region == model.Region)
+                       && (string.IsNullOrEmpty(model.Title) || e.Title == model.Title)
+                       && (string.IsNullOrEmpty(model.TitleOfCourtesy) || e.TitleOfCourtesy == model.TitleOfCourtesy)
+                       && (!model.BirthDate.HasValue || e.BirthDate == model.BirthDate)
+                       && (!model.EmployeeId.HasValue || e.EmployeeId == model.EmployeeId)
+                       select new EmployeeViewModel
+                       {
+                           EmployeeId = e.EmployeeId,
+                           BirthDate = e.BirthDate,
+                           City = e.City,
+                           Country = e.Country,
+                           FirstName = e.FirstName,
+                           LastName = e.LastName,
+                           Region = e.Region,
+                           Title = e.Title,
+                           TitleOfCourtesy = e.TitleOfCourtesy
+                       }).ToList();
+            return res;
         }
 
         public IEnumerable<LateEmployeeModel> GetLateEmployees()

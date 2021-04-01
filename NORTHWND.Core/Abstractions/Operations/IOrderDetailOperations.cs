@@ -10,5 +10,6 @@ namespace NORTHWND.Core.Abstractions.Operations
         public void Add(OrderDetailRegisterModel model);
         public void Delete(OrderDetailDeleteModel model);
         public IEnumerable<OrderDetailsModel> GetAll();
+        public IEnumerable<OrderDetailsModel> Get(OrderDetailsModel model);
     }
 }

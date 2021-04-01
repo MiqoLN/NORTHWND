@@ -139,5 +139,10 @@ namespace NORTHWND.BLL.Operations
             _repositories.Orders.Update(order);
             _repositories.SaveChanges();
         }
+
+        public IEnumerable<OrderViewModel> Get(OrderViewModel model)
+        {
+            return _repositories.Orders.Get(model);
+        }
     }
 }

@@ -101,5 +101,10 @@ namespace NORTHWND.BLL.Operations
                 UnitsInStock = product.UnitsInStock
             };
         }
+
+        public IEnumerable<ProductViewModel> Get(ProductViewModel model)
+        {
+            return _repositories.Products.Get(model);
+        }
     }
 }

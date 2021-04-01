@@ -19,24 +19,10 @@ namespace NORTHWND.API.Controllers
         {
             _orderOperations = orderOperations;
         }
-        [HttpPut]
-        public IActionResult Edit([FromQuery] OrderChangeModel model)
+        [HttpGet("properties")]
+        public IActionResult Get([FromQuery] OrderViewModel model)
         {
-            _orderOperations.EditOrder(model);
-            return Ok();
-        }
-        [HttpPost]
-        public IActionResult Add([FromBody] OrderRegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                _orderOperations.AddOrder(model);
-            }
-            else
-            {
-                return BadRequest();
-            }
-            return Ok();
+            return Ok(_orderOperations.Get(model));
         }
         [Authorize(Roles = "User")]
         [HttpGet]
@@ -92,6 +78,25 @@ namespace NORTHWND.API.Controllers
         {
             var res = _orderOperations.GetOrdersByCountry(country);
             return Ok(res);
+        }
+        [HttpPut]
+        public IActionResult Edit([FromQuery] OrderChangeModel model)
+        {
+            _orderOperations.EditOrder(model);
+            return Ok();
+        }
+        [HttpPost]
+        public IActionResult Add([FromBody] OrderRegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _orderOperations.AddOrder(model);
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
     }
 }

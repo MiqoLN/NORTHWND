@@ -22,6 +22,11 @@ namespace NORTHWND.API.Controllers
         {
             return Ok(_employeeOperations.Get());
         }
+        [HttpGet("properties")]
+        public IActionResult Get([FromQuery] EmployeeViewModel model)
+        {
+            return Ok(_employeeOperations.Get(model));
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] int id)

@@ -22,6 +22,11 @@ namespace NORTHWND.API.Controllers
         {
             return Ok(_customerOperations.Get());
         }
+        [HttpGet("properties")]
+        public IActionResult Get([FromQuery] CustomerViewModel model)
+        {
+            return Ok(_customerOperations.Get(model));
+        }
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] string id)
         {
@@ -45,7 +50,7 @@ namespace NORTHWND.API.Controllers
             return Ok();
         }
         [HttpGet("without-order/{id}")]
-        public IActionResult GetCustomersWithoutOrder([FromRoute]int id)
+        public IActionResult GetCustomersWithoutOrder([FromRoute] int id)
         {
             return Ok(_customerOperations.GetCustomersWithNoOrders(id));
         }

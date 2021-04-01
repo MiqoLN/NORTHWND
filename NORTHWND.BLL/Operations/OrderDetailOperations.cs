@@ -46,6 +46,11 @@ namespace NORTHWND.BLL.Operations
             _repositories.SaveChanges();
         }
 
+        public IEnumerable<OrderDetailsModel> Get(OrderDetailsModel model)
+        {
+            return _repositories.OrderDetails.Get(model);
+        }
+
         public IEnumerable<OrderDetailsModel> GetAll()
         {
             var ods = _repositories.OrderDetails.GetAll().AsQueryable();
