@@ -18,6 +18,11 @@ namespace NORTHWND.API.Controllers
         {
             _orderDetailOperations = orderDetailOperations;
         }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_orderDetailOperations.GetAll());
+        }
         [HttpPost]
         public IActionResult Post(OrderDetailRegisterModel model)
         {
@@ -27,10 +32,15 @@ namespace NORTHWND.API.Controllers
                 return BadRequest("Not all parameters have filled");
             return Created("", model);
         }
-        [HttpGet]
-        public IActionResult Get()
+        [HttpDelete]
+        public IActionResult Delete([FromBody]OrderDetailDeleteModel model)
         {
-            return Ok(_orderDetailOperations.GetAll());
+            if (ModelState.IsValid)
+                _orderDetailOperations.Delete(model);
+            else
+                return BadRequest();
+            return Ok();
         }
+
     }
 }

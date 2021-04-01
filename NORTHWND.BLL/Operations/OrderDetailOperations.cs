@@ -37,6 +37,15 @@ namespace NORTHWND.BLL.Operations
             _repositories.SaveChanges();
         }
 
+        public void Delete(OrderDetailDeleteModel model)
+        {
+            var od = _repositories.OrderDetails.GetSingle(u => u.OrderId == model.OrderId && u.ProductId == model.ProductId);
+            if (od == null)
+                throw new LogicException("There is no order with that parameters");
+            _repositories.OrderDetails.Remove(od);
+            _repositories.SaveChanges();
+        }
+
         public IEnumerable<OrderDetailsModel> GetAll()
         {
             var ods = _repositories.OrderDetails.GetAll().AsQueryable();

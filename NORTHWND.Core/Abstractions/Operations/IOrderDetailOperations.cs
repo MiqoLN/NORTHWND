@@ -8,7 +8,7 @@ namespace NORTHWND.Core.Abstractions.Operations
     public interface IOrderDetailOperations
     {
         public void Add(OrderDetailRegisterModel model);
-        
+        public void Delete(OrderDetailDeleteModel model);
         public IEnumerable<OrderDetailsModel> GetAll();
     }
 }
