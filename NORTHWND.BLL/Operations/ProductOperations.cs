@@ -1,4 +1,5 @@
-﻿using NORTHWND.Core.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Entities;
@@ -6,6 +7,7 @@ using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NORTHWND.BLL.Operations
@@ -13,13 +15,16 @@ namespace NORTHWND.BLL.Operations
     public class ProductOperations : IProductOperations
     {
         private readonly IRepositoryManager _repositories;
-        public ProductOperations(IRepositoryManager repositories)
+        private readonly ILogger<ProductOperations> _logger;
+        public ProductOperations(IRepositoryManager repositories, ILogger<ProductOperations> logger)
         {
             _repositories = repositories;
+            _logger = logger;
         }
 
         public void Add(ProductRegisterModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var supplier = _repositories.Suppliers.Get((int)model.SupplierId);
             if (supplier == null)
                 throw new LogicException("There is no supplier with that Id");
@@ -37,10 +42,12 @@ namespace NORTHWND.BLL.Operations
                 UnitsInStock = model.UnitsInStock
             });
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public void Edit(ProductChangeModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var product = _repositories.Products.Get(model.ProductId);
             if (product == null)
                 throw new LogicException("There is no product with that Id");
@@ -64,10 +71,12 @@ namespace NORTHWND.BLL.Operations
             product.UnitsInStock = model.UnitsInStock == null ? product.UnitsInStock : model.UnitsInStock;
             _repositories.Products.Update(product);
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public IEnumerable<ProductViewModel> Get()
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var products = _repositories.Products.GetAll().AsQueryable();
             var res = (from p in products
                        select new ProductViewModel
@@ -81,14 +90,17 @@ namespace NORTHWND.BLL.Operations
                            UnitPrice = p.UnitPrice,
                            UnitsInStock = p.UnitsInStock
                        }).ToList();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
         }
 
         public ProductViewModel Get(int id)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var product = _repositories.Products.Get(id);
             if (product == null)
                 throw new LogicException("There is no product with that Id");
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return new ProductViewModel
             {
                 CategoryId = product.CategoryId,
@@ -104,7 +116,10 @@ namespace NORTHWND.BLL.Operations
 
         public IEnumerable<ProductViewModel> Get(ProductViewModel model)
         {
-            return _repositories.Products.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Products.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
     }
 }

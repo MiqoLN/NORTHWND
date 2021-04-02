@@ -1,10 +1,12 @@
-﻿using NORTHWND.Core.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NORTHWND.BLL.Operations
@@ -12,13 +14,16 @@ namespace NORTHWND.BLL.Operations
     public class CustomerOperations : ICustomerOperations
     {
         private readonly IRepositoryManager _repositories;
-        public CustomerOperations(IRepositoryManager manager)
+        private readonly ILogger<CustomerOperations> _logger;
+        public CustomerOperations(IRepositoryManager manager, ILogger<CustomerOperations> logger)
         {
             _repositories = manager;
+            _logger = logger;
         }
 
         public void Add(CustomerRegisterModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var modelCheck = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
             if (modelCheck == null)
             {
@@ -29,12 +34,14 @@ namespace NORTHWND.BLL.Operations
             {
                 throw new LogicException("There is already customer with that Id");
             }
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public IEnumerable<CustomerViewModel> Get()
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var query = _repositories.Customers.GetAll().AsQueryable();
-            var res = from c in query
+            var res = (from c in query
                       select new CustomerViewModel
                       {
                           City = c.City,
@@ -44,38 +51,55 @@ namespace NORTHWND.BLL.Operations
                           Country = c.Country,
                           CustomerId = c.CustomerId,
                           Region = c.Region
-                      };
-            return res.ToList();
+                      }).ToList();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<VipCustomerModel> GetVipCustomers()
         {
-            return _repositories.Customers.GetVipCustomers();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Customers.GetVipCustomers();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<CustomersWithNoOrdersModel> GetCustomersWithNoOrders(int id)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var customer = _repositories.Employees.Get(id) ?? throw new LogicException("Wrong customerId");
-            return _repositories.Customers.GetCustomersWithNoOrders(id);
+            var res = _repositories.Customers.GetCustomersWithNoOrders(id);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<CustomersByGroup> GetCustomersByGroup()
         {
-            return _repositories.Customers.GetCustomersByGroup();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Customers.GetCustomersByGroup();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
 
         public IEnumerable<CustomerGroup> GetCustomersGroup()
         {
-            return _repositories.Customers.GetCustomersGroup();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Customers.GetCustomersGroup();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<CustomerWithOnlyId> GetCustomersWithNoOrders()
         {
-            return _repositories.Customers.GetCustomersWithNoOrders();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Customers.GetCustomersWithNoOrders();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
         public void EditCustomer(CustomerChangeModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var customer = _repositories.Customers.GetSingle(u => u.CustomerId == model.CustomerId);
             if (customer == null)
                 throw new LogicException("There is no customer with that Id");
@@ -87,13 +111,16 @@ namespace NORTHWND.BLL.Operations
             customer.Region = string.IsNullOrEmpty(model.Region) ? customer.Region : model.Region;
             _repositories.Customers.Update(customer);
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public CustomerViewModel Get(string id)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var customer = _repositories.Customers.GetSingle(u => u.CustomerId == id);
             if (customer == null)
                 throw new LogicException("There is no customer with that id");
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return new CustomerViewModel
             {
                 City = customer.City,
@@ -108,7 +135,10 @@ namespace NORTHWND.BLL.Operations
 
         public IEnumerable<CustomerViewModel> Get(CustomerViewModel model)
         {
-            return _repositories.Customers.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Customers.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
     }
 }

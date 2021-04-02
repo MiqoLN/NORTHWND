@@ -1,4 +1,5 @@
-﻿using NORTHWND.Core.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Entities;
@@ -6,6 +7,7 @@ using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NORTHWND.BLL.Operations
@@ -13,13 +15,16 @@ namespace NORTHWND.BLL.Operations
     public class OrderDetailOperations : IOrderDetailOperations
     {
         private readonly IRepositoryManager _repositories;
-        public OrderDetailOperations(IRepositoryManager repository)
+        private readonly ILogger<OrderDetailOperations> _logger;
+        public OrderDetailOperations(IRepositoryManager repositories, ILogger<OrderDetailOperations> logger)
         {
-            _repositories = repository;
+            _repositories = repositories;
+            _logger = logger;
         }
 
         public void Add(OrderDetailRegisterModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var product = _repositories.Products.GetSingle(u => u.ProductId == model.ProductId);
             if (product == null)
                 throw new LogicException("Wrong productId");
@@ -35,35 +40,43 @@ namespace NORTHWND.BLL.Operations
                 UnitPrice = model.UnitPrice
             });
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public void Delete(OrderDetailDeleteModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var od = _repositories.OrderDetails.GetSingle(u => u.OrderId == model.OrderId && u.ProductId == model.ProductId);
             if (od == null)
                 throw new LogicException("There is no order with that parameters");
             _repositories.OrderDetails.Remove(od);
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public IEnumerable<OrderDetailsModel> Get(OrderDetailsModel model)
         {
-            return _repositories.OrderDetails.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.OrderDetails.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<OrderDetailsModel> GetAll()
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var ods = _repositories.OrderDetails.GetAll().AsQueryable();
             var res = (from od in ods
-                      select new OrderDetailsModel
-                      {
-                          Discount = od.Discount,
-                          OrderId = od.OrderId,
-                          ProductId = od.ProductId,
-                          Quantity = od.Quantity,
-                          UnitPrice = od.UnitPrice
+                       select new OrderDetailsModel
+                       {
+                           Discount = od.Discount,
+                           OrderId = od.OrderId,
+                           ProductId = od.ProductId,
+                           Quantity = od.Quantity,
+                           UnitPrice = od.UnitPrice
 
-                      }).ToList();
+                       }).ToList();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
         }
     }

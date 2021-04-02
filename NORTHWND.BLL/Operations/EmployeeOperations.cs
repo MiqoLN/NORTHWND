@@ -1,10 +1,12 @@
-﻿using NORTHWND.Core.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NORTHWND.BLL.Operations
@@ -12,19 +14,24 @@ namespace NORTHWND.BLL.Operations
     public class EmployeeOperations : IEmployeeOperations
     {
         private readonly IRepositoryManager _repositories;
-        public EmployeeOperations(IRepositoryManager manager)
+        private readonly ILogger<EmployeeOperations> _logger;
+        public EmployeeOperations(IRepositoryManager repositories,ILogger<EmployeeOperations> logger)
         {
-            _repositories = manager;
+            _logger = logger;
+            _repositories = repositories;
         }
 
         public void AddEmployee(EmployeeRegisterModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             _repositories.Employees.AddEmployee(model);
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public void EditEmployee(EmployeeChangeModel model)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var employee = _repositories.Employees.Get(model.EmployeeId);
             if (employee == null)
                 throw new LogicException("There is no Employee with that Id");
@@ -38,10 +45,12 @@ namespace NORTHWND.BLL.Operations
             employee.LastName = string.IsNullOrEmpty(model.LastName) ? employee.LastName : model.LastName;
             _repositories.Employees.Update(employee);
             _repositories.SaveChanges();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 
         public IEnumerable<EmployeeViewModel> Get()
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var query = _repositories.Employees.GetAll();
             var res = (from e in query
                        select new EmployeeViewModel
@@ -56,14 +65,17 @@ namespace NORTHWND.BLL.Operations
                            Title = e.Title,
                            TitleOfCourtesy = e.TitleOfCourtesy
                        }).ToList();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
         }
 
         public EmployeeViewModel Get(int id)
         {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
             var employee = _repositories.Employees.Get(id);
             if (employee == null)
                 throw new LogicException("There is no employee with that Id");
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return new EmployeeViewModel
             {
                 BirthDate = employee.BirthDate,
@@ -81,12 +93,18 @@ namespace NORTHWND.BLL.Operations
 
         public IEnumerable<EmployeeViewModel> Get(EmployeeViewModel model)
         {
-            return _repositories.Employees.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res= _repositories.Employees.Get(model);
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
 
         public IEnumerable<LateEmployeeModel> GetLateEmployees()
         {
-            return _repositories.Employees.GetLateEmployees();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res =_repositories.Employees.GetLateEmployees();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
         }
     }
 }
