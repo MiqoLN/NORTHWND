@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NORTHWND.Core.BusinessModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NORTHWND.Core.Abstractions.Operations

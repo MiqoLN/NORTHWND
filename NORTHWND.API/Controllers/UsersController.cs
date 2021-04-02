@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
-using NORTHWND.Core.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

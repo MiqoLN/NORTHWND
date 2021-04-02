@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NORTHWND.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NORTHWND.DAL.Configurations
 {
