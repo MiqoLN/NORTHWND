@@ -29,23 +29,23 @@ namespace NORTHWND.BLL.Operations
         }
         public async Task Login(LoginModel model, HttpContext context)
         {
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            _logger.LogInformation("Login started");
             var user = _repositories.Users.GetSingle(u => u.Email == model.Email && u.Password == model.Password && u.Role == Role.User)
                 ?? throw new LogicException("Wrong username or password");
             await Authenticate(user, context);
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            _logger.LogInformation("Login finished");
         }
 
         public async Task Logout(HttpContext context)
         {
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            _logger.LogInformation("Logout started");
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            _logger.LogInformation("Logout finished");
         }
 
         public async Task Register(RegisterModel model, HttpContext context)
         {
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            _logger.LogInformation("Register started");
             User user = _repositories.Users.GetSingle(u => u.Email == model.Email);
             if (user == null)
             {
@@ -61,11 +61,11 @@ namespace NORTHWND.BLL.Operations
             }
             else
                 throw new LogicException("User already exists");
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            _logger.LogInformation("Register finished");
         }
         public async Task Authenticate(User user, HttpContext context)
         {
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            _logger.LogInformation("Authenticate started");
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
@@ -73,7 +73,7 @@ namespace NORTHWND.BLL.Operations
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            _logger.LogInformation("Authenticate finished");
         }
     }
 }

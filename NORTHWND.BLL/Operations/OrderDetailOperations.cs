@@ -46,11 +46,24 @@ namespace NORTHWND.BLL.Operations
         public void Delete(OrderDetailDeleteModel model)
         {
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
-            var od = _repositories.OrderDetails.GetSingle(u => u.OrderId == model.OrderId && u.ProductId == model.ProductId);
-            if (od == null)
-                throw new LogicException("There is no order with that parameters");
-            _repositories.OrderDetails.Remove(od);
-            _repositories.SaveChanges();
+
+            using (var transaction = _repositories.BeginTransaction())
+            {
+                try
+                {
+                    var od = _repositories.OrderDetails.GetSingle(u => u.OrderId == model.OrderId && u.ProductId == model.ProductId);
+                    if (od == null)
+                        throw new LogicException("There is no order with that parameters");
+                    _repositories.OrderDetails.Remove(od);
+                    _repositories.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.RollBack();
+                    throw ex;
+                }
+            }
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
         }
 

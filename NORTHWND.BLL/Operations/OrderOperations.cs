@@ -96,27 +96,6 @@ namespace NORTHWND.BLL.Operations
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
         }
-        /*
-        DO TRANSACTION!!
-        public void Test()
-        {
-            using (var transaction = _repositories.BeginTransaction())
-            {
-                try
-                {
-                    //add
-                    //remove
-                    _repositories.SaveChanges();
-                    transaction.Commit();
-                }
-                catch (System.Exception)
-                {
-                    transaction.RollBack();
-                    throw;
-                }
-            }
-        }
-        */
         public IEnumerable<OrderViewModel> GetLateOrders()
         {
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");

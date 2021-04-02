@@ -1,6 +1,7 @@
 ﻿using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Repositories;
 using NORTHWND.DAL.Repositories;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace NORTHWND.DAL
@@ -28,6 +29,10 @@ namespace NORTHWND.DAL
         public ISupplierRepository Suppliers => _suppliers ?? (_suppliers = new SupplierRepository(_dbContext));
         private ICategoryRepository _categories;
         public ICategoryRepository Categories => _categories ?? (_categories = new CategoryRepository(_dbContext));
+        public IDatabaseTransaction BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        {
+            return new DatabaseTransaction(_dbContext, isolationLevel);
+        }
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
