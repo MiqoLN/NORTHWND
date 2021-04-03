@@ -119,5 +119,22 @@ namespace NORTHWND.BLL.Operations
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
         }
+
+        public IEnumerable<ProductCategoryModel> GetCategories()
+        {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Products.GetCategories();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
+        }
+
+        public IEnumerable<ProductViewModel> GetReorderingProducts()
+        {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+            var res = _repositories.Products.GetReorderingProducts();
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+            return res;
+
+        }
     }
 }

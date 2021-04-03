@@ -93,6 +93,7 @@ namespace NORTHWND.API.Controllers
             }
             return Ok();
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {

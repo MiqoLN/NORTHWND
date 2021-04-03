@@ -37,5 +37,48 @@ namespace NORTHWND.DAL.Repositories
                        }).ToList();
             return res;
         }
+
+        public IEnumerable<ProductCategoryModel> GetCategories()
+        {
+            var products = Context.Products.AsQueryable();
+            var categories = Context.Categories.AsQueryable();
+            var query = from p in products
+                        group p by p.CategoryId into pp
+                        orderby pp.Count() descending
+                        select new
+                        {
+                            Id = pp.Key,
+                            Count = pp.Count()
+                        };
+            var res = (from r in query
+                       join c in categories
+                       on r.Id equals c.CategoryId
+                       select new ProductCategoryModel
+                       {
+                           CategoryName = c.CategoryName,
+                           Count = r.Count
+                       }).ToList();
+            return res;
+        }
+
+        public IEnumerable<ProductViewModel> GetReorderingProducts()
+        {
+            var products = Context.Products.AsQueryable();
+            var res = (from p in products
+                       where (p.UnitsInStock + p.UnitsOnOrder < p.ReorderLevel) && p.Discontinued == false
+                       orderby p.ProductId
+                       select new ProductViewModel
+                       {
+                           CategoryId = p.CategoryId,
+                           Discontinued = p.Discontinued,
+                           ProductId = p.ProductId,
+                           ProductName = p.ProductName,
+                           QuantityPerUnit = p.QuantityPerUnit,
+                           SupplierId = p.SupplierId,
+                           UnitPrice = p.UnitPrice,
+                           UnitsInStock = p.UnitsInStock
+                       }).ToList();
+            return res;
+        }
     }
 }

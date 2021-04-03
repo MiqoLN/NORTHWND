@@ -28,40 +28,18 @@ namespace NORTHWND.API.Controllers
         {
             return Ok(_productOperations.Get(id));
         }
-        /*
         [HttpGet("categories")]
         public IActionResult GetCategories()
         {
-            var products = _dbContext.Products.AsQueryable();
-            var categories = _dbContext.Categories.AsQueryable();
-            var res = from p in products
-                      group p by p.CategoryId into pp
-                      orderby pp.Count() descending
-                      select new
-                      {
-                          Id = pp.Key,
-                          Count = pp.Count()
-                      };
-            var final = (from r in res
-                         join c in categories
-                         on r.Id equals c.CategoryId
-                         select new
-                         {
-                             Name = c.CategoryName,
-                             Count = r.Count
-                         }).ToList();
-            return Ok(final);
+            var res = _productOperations.GetCategories();
+            return Ok(res);
         }
         [HttpGet("toreorder")]
         public IActionResult GetReorderingProducts()
         {
-            var products = _dbContext.Products.AsQueryable();
-            var res = (from p in products
-                       where (p.UnitsInStock + p.UnitsOnOrder < p.ReorderLevel) && p.Discontinued == false
-                       orderby p.ProductId
-                       select p).ToList();
+            var res = _productOperations.GetReorderingProducts();
             return Ok(res);
-        }*/
+        }
         [HttpPost]
         public IActionResult Post([FromBody] ProductRegisterModel model)
         {

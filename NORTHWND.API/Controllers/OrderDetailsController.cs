@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 
@@ -33,6 +34,7 @@ namespace NORTHWND.API.Controllers
                 return BadRequest("Not all parameters have filled");
             return Created("", model);
         }
+        [Authorize]
         [HttpDelete]
         public IActionResult Delete([FromBody]OrderDetailDeleteModel model)
         {

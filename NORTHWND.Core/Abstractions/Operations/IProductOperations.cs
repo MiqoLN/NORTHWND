@@ -10,6 +10,8 @@ namespace NORTHWND.Core.Abstractions.Operations
         public ProductViewModel Get(int id);
         public IEnumerable<ProductViewModel> Get();
         public IEnumerable<ProductViewModel> Get(ProductViewModel model);
+        public IEnumerable<ProductCategoryModel> GetCategories();
+        public IEnumerable<ProductViewModel> GetReorderingProducts();
 
     }
 }

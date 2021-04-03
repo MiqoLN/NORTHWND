@@ -7,5 +7,7 @@ namespace NORTHWND.Core.Abstractions.Repositories
     public interface IProductRepository:IRepositoryBase<Product>
     {
         public IEnumerable<ProductViewModel> Get(ProductViewModel model);
+        public IEnumerable<ProductCategoryModel> GetCategories();
+        public IEnumerable<ProductViewModel> GetReorderingProducts();
     }
 }
