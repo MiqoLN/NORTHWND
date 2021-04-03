@@ -42,7 +42,13 @@ namespace NORTHWND.DAL.Repositories
         {
             Context.Set<T>().Remove(entity);
         }
-
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Remove(entity);
+            }
+        }
         public void Update(T entity)
         {
             Context.Set<T>().Update(entity);

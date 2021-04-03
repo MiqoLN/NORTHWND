@@ -3,6 +3,7 @@ using NORTHWND.Core.Abstractions;
 using NORTHWND.Core.Abstractions.Operations;
 using NORTHWND.Core.BusinessModels;
 using NORTHWND.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -155,6 +156,35 @@ namespace NORTHWND.BLL.Operations
             var res = _repositories.Orders.Get(model);
             _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
             return res;
+        }
+
+        public void Delete(int id)
+        {
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} started");
+
+            using (var transaction = _repositories.BeginTransaction())
+            {
+                try
+                {
+                    var order = _repositories.Orders.Get(id);
+                    if (order == null)
+                        throw new LogicException("There is no order with that parameters");
+                    var od = _repositories.OrderDetails.GetRange(id);
+                    if (od == null)
+                        throw new LogicException("There is no order with that parameters");
+                    _repositories.OrderDetails.RemoveRange(od);
+                    _repositories.Orders.Remove(order);
+                    _repositories.SaveChanges();
+                    transaction.Commit();
+                } 
+                catch (Exception ex)
+                {
+                    transaction.RollBack();
+                    throw ex;
+                }
+            }
+            _logger.LogInformation($"{MethodBase.GetCurrentMethod().Name} finished");
+
         }
     }
 }

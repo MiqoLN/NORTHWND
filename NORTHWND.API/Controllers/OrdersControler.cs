@@ -93,5 +93,12 @@ namespace NORTHWND.API.Controllers
             }
             return Ok();
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            _orderOperations.Delete(id);
+            return Ok();
+        }
+
     }
 }

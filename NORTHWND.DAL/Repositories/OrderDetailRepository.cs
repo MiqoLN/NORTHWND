@@ -31,5 +31,14 @@ namespace NORTHWND.DAL.Repositories
                        }).ToList();
             return res;
         }
+
+        public IEnumerable<OrderDetail> GetRange(int orderId)
+        {
+            var od = Context.OrderDetails.AsQueryable();
+            var res = (from o in od
+                       where o.OrderId == orderId
+                       select o).ToList();
+            return res;
+        }
     }
 }
